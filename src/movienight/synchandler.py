@@ -9,10 +9,9 @@ SERVER = "unmoon.com"
 
 
 class SyncHandler:
-    def __init__(self, set_time_callback, play_callback, pause_callback, lock):
+    def __init__(self, play_callback, pause_callback, lock):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect((SERVER, 9512))
-        self._set_time_callback = set_time_callback
         self._play_callback = play_callback
         self._pause_callback = pause_callback
         self.lock = lock
@@ -39,9 +38,7 @@ class SyncHandler:
             with self.lock:
                 if playing:
                     log.debug("GET PLAY: %i", time)
-                    self._play_callback()
-                    self._set_time_callback(time)
+                    self._play_callback(time)
                 else:
                     log.debug("GET STOP: %i", time)
-                    self._set_time_callback(time)
-                    self._pause_callback()
+                    self._pause_callback(time)

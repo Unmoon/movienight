@@ -53,10 +53,7 @@ class Player(QtWidgets.QMainWindow):
 
         self.delay = 0
         self.connection = SyncHandler(
-            set_time_callback=self.sync,
-            play_callback=self.play,
-            pause_callback=self.pause,
-            lock=self.lock,
+            play_callback=self.play, pause_callback=self.pause, lock=self.lock
         )
 
     def mouseDoubleClickEvent(self, event):
@@ -163,19 +160,25 @@ class Player(QtWidgets.QMainWindow):
 
         self.widget.setLayout(self.v_box_layout)
 
-    def play(self):
+    def play(self, time=None):
         if self.media_player.is_playing() == 1:
             return
         self.media_player.play()
         self.play_button.setText("Pause")
-        self.send_sync(True)
+        if time is None:
+            self.send_sync(False)
+        else:
+            self.sync(time)
 
-    def pause(self):
+    def pause(self, time=None):
         if self.media_player.is_playing() == 0:
             return
+        if time is None:
+            self.send_sync(False)
+        else:
+            self.sync(time)
         self.media_player.pause()
         self.play_button.setText("Play")
-        self.send_sync(False)
 
     def set_audio_delay(self, delay):
         """Set delay in seconds for audio."""
