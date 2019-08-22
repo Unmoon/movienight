@@ -166,7 +166,7 @@ class Player(QtWidgets.QMainWindow):
         self.media_player.play()
         self.play_button.setText("Pause")
         if time is None:
-            self.send_sync(False)
+            self.send_sync(True)
         else:
             self.sync(time)
 
