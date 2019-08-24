@@ -6,6 +6,8 @@ VLC-based media player that syncs with other players using Movie Night Server.
 * Python 3.7
 * [VLC](https://www.videolan.org/vlc/)
 
+PyQt 5.13.0 does not bundle correctly with PyInstaller, so PyQt requirement has been frozen <5.13.0. 
+
 Virtual environment should be created before installing or bundling the application.
 ```shell script
 python -m venv venv

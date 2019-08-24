@@ -11,6 +11,6 @@ setup(
     packages=find_packages(where=""),
     package_dir={"movienight": "movienight"},
     entry_points={"console_scripts": ["movienight=movienight.main:main"]},
-    install_requires=["python-vlc", "pyqt5", "requests", "appdirs"],
+    install_requires=["python-vlc", "pyqt5<5.13.0", "requests", "appdirs"],
     extras_require={"bundle": ["pyinstaller"]},
 )
