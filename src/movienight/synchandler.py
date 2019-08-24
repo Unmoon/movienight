@@ -3,15 +3,15 @@ import socket
 import struct
 import threading
 
-log = logging.getLogger(__name__)
+from .config import config
 
-SERVER = "unmoon.com"
+log = logging.getLogger(__name__)
 
 
 class SyncHandler:
     def __init__(self, play_callback, pause_callback, lock):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.connect((SERVER, 9512))
+        self._socket.connect((config.get("sync_server"), 9512))
         self._play_callback = play_callback
         self._pause_callback = pause_callback
         self.lock = lock

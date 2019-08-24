@@ -7,7 +7,7 @@ a = Analysis(
     ["src\\movienight\\main.py"],
     pathex=["C:/Program Files/VideoLAN/VLC/"],
     binaries=[("C:/Program Files/VideoLAN/VLC/plugins/*", "plugins")],
-    datas=[],
+    datas=[("src/movienight/defaults.ini", ".")],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],

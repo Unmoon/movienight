@@ -1,6 +1,10 @@
 import logging
 import sys
 
+from .config import read_config
+
+read_config()
+
 root_log = logging.getLogger(__name__)
 root_log.setLevel(logging.DEBUG)
 
