@@ -5,13 +5,13 @@ iconpath = os.path.join(os.path.dirname(os.path.abspath(SPEC)), "Movie Night.ico
 
 
 a = Analysis(
-    ["src\\movienight\\main.py"],
+    ["movienight\\main.py"],
     pathex=["C:/Program Files/VideoLAN/VLC/"],
     binaries=[
         ("C:/Program Files/VideoLAN/VLC/plugins/*", "plugins"),
         ("C:/Program Files/VideoLAN/VLC/libvlc.dll", "."),
     ],
-    datas=[("Movie Night.ico",".")],
+    datas=[("Movie Night.ico", ".")],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
