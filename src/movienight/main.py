@@ -1,8 +1,10 @@
 import logging
+import os
 import sys
 import time
 
 import vlc
+from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
 from movienight.gui.downloadmanager import DownloadManager
@@ -11,15 +13,17 @@ from movienight.gui.videoplayer import VideoPlayer
 log = logging.getLogger(__name__)
 
 
-def main():
-    from movienight.config import config
-    from configparser import NoOptionError
+# Translate asset paths to usable format for PyInstaller
+# https://blog.aaronhktan.com/posts/2018/05/14/pyqt5-pyinstaller-executable
+def resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
-    try:
-        config.get("Test")
-    except NoOptionError:
-        print("ok")
+
+def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon(resource_path("Movie Night.ico")))
     download_manager = DownloadManager()
     video_player = VideoPlayer()
 

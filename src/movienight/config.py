@@ -26,8 +26,18 @@ class SimpleConfig(configparser.ConfigParser):
 def read_config():
     filename = os.path.join(CONFIG_DIR, "config.ini")
     if not os.path.isfile(filename):
-        filename = os.path.join(os.getcwd(), "defaults.ini")
-    print("Config read from file" ":", config.read(filename))
+        data = (
+            "[DEFAULT]\n"
+            "version = 0.1\n"
+            "sync_server = unmoon.com\n"
+            "file_server = https://unmoon.com/dl/\n"
+            "files = []\n"
+        )
+        config.read_string(data)
+        print("Default config loaded.")
+    else:
+        print("Config read from file:", config.read(filename))
 
 
 config = SimpleConfig()
+read_config()

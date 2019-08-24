@@ -1,13 +1,17 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 block_cipher = None
+iconpath = os.path.join(os.path.dirname(os.path.abspath(SPEC)), "Movie Night.ico")
 
 
 a = Analysis(
     ["src\\movienight\\main.py"],
     pathex=["C:/Program Files/VideoLAN/VLC/"],
-    binaries=[("C:/Program Files/VideoLAN/VLC/plugins/*", "plugins")],
-    datas=[("src/movienight/defaults.ini", ".")],
+    binaries=[
+        ("C:/Program Files/VideoLAN/VLC/plugins/*", "plugins"),
+        ("C:/Program Files/VideoLAN/VLC/libvlc.dll", "."),
+    ],
+    datas=[("Movie Night.ico",".")],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
@@ -21,23 +25,17 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries + [("libVLC.dll", "C:/Program Files/VideoLAN/VLC/libvlc.dll", "BINARY")],
+    a.binaries,
+    a.zipfiles,
+    a.datas,
     [],
-    exclude_binaries=True,
     name="Movie Night",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=False,
-)
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
-    strip=False,
-    upx=True,
     upx_exclude=[],
-    name="Movie Night",
+    runtime_tmpdir=None,
+    console=False,
+    icon=iconpath,
 )
