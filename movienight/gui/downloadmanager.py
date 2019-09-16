@@ -89,8 +89,8 @@ class DownloadManager(QtWidgets.QMainWindow):
     def _remove_item(self, filename):
         for item in self.files:
             if item[0] == filename:
-                log.debug("Removing item '%s'", filename)
                 self.files.remove(item)
+                log.debug("Item removed from list '%s'", filename)
         self._update_table()
 
     def _update_table(self):
@@ -122,7 +122,6 @@ class DownloadManager(QtWidgets.QMainWindow):
             log.debug("Failed to delete file '%s: '%s'", filename, error)
             return
         self._remove_item(filename)
-        log.debug("File deleted: '%s'", filename)
         config.set("files", json.dumps(self.files))
         config.write()
 

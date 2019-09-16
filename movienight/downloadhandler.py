@@ -73,4 +73,9 @@ def download_file_sync(filename, file_path, headers, buffer_event, progress_call
 
 
 def delete_file(filename):
-    os.remove(os.path.join(config.get("download_directory"), filename))
+    file = os.path.join(config.get("download_directory"), filename)
+    if os.path.isfile(file):
+        os.remove(file)
+        log.debug("File deleted: %s", file)
+    else:
+        log.debug("File not found: %s", file)
