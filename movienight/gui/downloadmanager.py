@@ -11,7 +11,7 @@ from ..downloadhandler import delete_file
 from ..downloadhandler import download_file_async
 from ..downloadhandler import get_next_filename
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("movienight")
 
 TITLE = "Download Manager"
 
@@ -45,17 +45,13 @@ class DownloadManager(QtWidgets.QMainWindow):
         self.setCentralWidget(self.widget)
 
         self.table = QtWidgets.QTableWidget(0, 2, self)
-        self.table.setSizePolicy(
-            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum
-        )
+        self.table.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.table.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.table.verticalHeader().hide()
         self.table.setHorizontalHeaderLabels(["Filename", "Progress"])
-        self.table.horizontalHeader().setSectionResizeMode(
-            0, QtWidgets.QHeaderView.Stretch
-        )
+        self.table.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         self.table.horizontalHeader()
         self.table.setColumnWidth(1, 100)
 
@@ -123,17 +119,21 @@ class DownloadManager(QtWidgets.QMainWindow):
             return
         self._remove_item(filename)
         config.set("files", json.dumps(self.files))
-        config.write()
+        config.save()
 
     def _load_files(self):
         local_files = json.loads(config.get("files"))
         log.debug(local_files)
         self.files = local_files
+        for file in self.files:
+            if not os.path.isfile(file[0]):
+                self.files.remove(file)
+
         self._next_file = get_next_filename()
         self._add_item(self._next_file)
         self.file_ready = download_file_async(self._next_file, self._update_item)
         config.set("files", json.dumps(self.files))
-        config.write()
+        config.save()
 
     def reload_files(self):
         download_directory = ""
@@ -151,7 +151,7 @@ class DownloadManager(QtWidgets.QMainWindow):
             )
         log.debug("Setting download directory to '%s'", download_directory)
         config.set("download_directory", download_directory)
-        config.write()
+        config.save()
         self._load_files()
 
     def get_next_filename(self):

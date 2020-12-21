@@ -41,7 +41,5 @@ This project uses [Black](https://github.com/psf/black) for code formatting.
 
 ```shell script
 pip install black
-black movienight/
-black setup.py
-black main.spec
+black .
 ```

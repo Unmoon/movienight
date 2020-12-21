@@ -10,7 +10,7 @@ from PyQt5 import QtWidgets
 from movienight.gui.downloadmanager import DownloadManager
 from movienight.gui.videoplayer import VideoPlayer
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("movienight")
 
 
 # Translate asset paths to usable format for PyInstaller

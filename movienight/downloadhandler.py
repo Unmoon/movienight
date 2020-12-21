@@ -6,7 +6,7 @@ import requests
 
 from .config import config
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("movienight")
 
 SERVER = config.get("file_server")
 

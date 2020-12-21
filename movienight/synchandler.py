@@ -5,7 +5,7 @@ import threading
 
 from .config import config
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("movienight")
 
 
 class SyncHandler:
@@ -21,20 +21,28 @@ class SyncHandler:
 
     def play(self, time):
         log.debug("SET PLAY: %i", time)
-        self._socket.sendall(struct.pack(">??I", True, True, time))
+        self._socket.sendall(struct.pack(">??I?", True, True, time, False))
 
     def stop(self, time):
         log.debug("SET STOP: %i", time)
-        self._socket.sendall(struct.pack(">??I", True, False, time))
+        self._socket.sendall(struct.pack(">??I?", True, False, time, False))
 
     def get(self):
-        self._socket.sendall(struct.pack(">??I", False, False, 0))
+        self._socket.sendall(struct.pack(">??I?", False, False, 0, False))
+
+    def heartbeat(self):
+        self._socket.sendall(struct.pack(">??I?", False, False, 0, True))
 
     def _listener(self):
         while True:
             data = self._socket.recv(1024)
             log.debug(data)
-            playing, time = struct.unpack(">?I", data)
+            playing, time, heartbeat = struct.unpack(">?I?", data)
+            if heartbeat:
+                log.debug("Heartbeat received!")
+                self.heartbeat()
+                log.debug("Heartbeat sent.")
+                continue
             with self.lock:
                 if playing:
                     log.debug("GET PLAY: %i", time)

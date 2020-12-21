@@ -5,7 +5,7 @@ iconpath = os.path.join(os.path.dirname(os.path.abspath(SPEC)), "Movie Night.ico
 
 
 a = Analysis(
-    ["movienight\\main.py"],
+    ["movienight\\__main__.py"],
     pathex=["C:/Program Files/VideoLAN/VLC/"],
     binaries=[
         ("C:/Program Files/VideoLAN/VLC/plugins/*", "plugins"),

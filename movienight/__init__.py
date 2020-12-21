@@ -1,7 +1,7 @@
 import logging
 import sys
 
-root_log = logging.getLogger(__name__)
+root_log = logging.getLogger("movienight")
 root_log.setLevel(logging.DEBUG)
 
 log_handler = logging.StreamHandler(sys.stdout)

@@ -11,7 +11,7 @@ from PyQt5 import QtWidgets
 from ..config import config
 from ..synchandler import SyncHandler
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("movienight")
 
 TITLE = "Movie Night"
 
@@ -50,9 +50,7 @@ class VideoPlayer(QtWidgets.QMainWindow):
         self.create_ui()
 
         self.delay = 0
-        self.sync_handler = SyncHandler(
-            play_callback=self.play, pause_callback=self.pause, lock=self.lock
-        )
+        self.sync_handler = SyncHandler(play_callback=self.play, pause_callback=self.pause, lock=self.lock)
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
@@ -120,9 +118,7 @@ class VideoPlayer(QtWidgets.QMainWindow):
         self.volume_slider.valueChanged.connect(self.set_volume)
 
         self.play_button = QtWidgets.QPushButton("Play")
-        self.play_button.clicked.connect(
-            lambda: self.pause() if self.media_player.is_playing() == 1 else self.play()
-        )
+        self.play_button.clicked.connect(lambda: self.pause() if self.media_player.is_playing() == 1 else self.play())
 
         self.subtitle_tracks_label = QtWidgets.QLabel("Subtitle Track:", self)
         self.subtitle_tracks = QtWidgets.QComboBox(self)
@@ -142,9 +138,7 @@ class VideoPlayer(QtWidgets.QMainWindow):
         self.audio_delay.setAlignment(QtCore.Qt.AlignRight)
         self.audio_delay.setText(str(self.media_player.audio_get_delay()))
         self.audio_delay.editingFinished.connect(
-            lambda: self.set_audio_delay(
-                float(self.audio_delay.text().replace(",", "."))
-            )
+            lambda: self.set_audio_delay(float(self.audio_delay.text().replace(",", ".")))
         )
 
         self.h_button_box = QtWidgets.QHBoxLayout()
@@ -261,9 +255,7 @@ class VideoPlayer(QtWidgets.QMainWindow):
                 subtitle_tracks.append(str(value, "utf-8"))
             self.subtitle_tracks.insertItems(0, subtitle_tracks)
             self.subtitle_tracks.setCurrentIndex(
-                self.subtitle_tracks.findText(
-                    current_subtitle_track, QtCore.Qt.MatchFixedString
-                )
+                self.subtitle_tracks.findText(current_subtitle_track, QtCore.Qt.MatchFixedString)
             )
 
     def load_audio_tracks(self):
@@ -276,7 +268,5 @@ class VideoPlayer(QtWidgets.QMainWindow):
                 audio_tracks.append(str(value, "utf-8"))
             self.audio_tracks.insertItems(0, audio_tracks)
             self.audio_tracks.setCurrentIndex(
-                self.audio_tracks.findText(
-                    current_audio_track, QtCore.Qt.MatchFixedString
-                )
+                self.audio_tracks.findText(current_audio_track, QtCore.Qt.MatchFixedString)
             )
