@@ -126,7 +126,8 @@ class DownloadManager(QtWidgets.QMainWindow):
         log.debug(local_files)
         self.files = local_files
         for file in self.files:
-            if not os.path.isfile(file[0]):
+            if not os.path.isfile(os.path.join(config.get("download_directory"), file[0])):
+                log.debug("Removing file because it does not exist on disk: %s", file)
                 self.files.remove(file)
 
         self._next_file = get_next_filename()
